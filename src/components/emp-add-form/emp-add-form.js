@@ -46,7 +46,7 @@ class EmpAddForm extends Component {
                         value={salary}
                         onChange={this.onValueChange}/>
     
-                    <button type="submit" className="btn btn-outline-light">Додати</button>
+                    <button type="submit" className="btn btn-outline-light">Додатии</button>
                 </form>
             </div>
         );
