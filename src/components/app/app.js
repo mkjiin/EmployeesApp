@@ -14,7 +14,9 @@ class App extends Component{
                 {name: 'Walter', salary: 500, increase: false, promotion: false, id: 1 },
                 {name: 'Saul', salary: 2500, increase: false, promotion: false, id: 2},
                 {name: 'Gus', salary: 5000, increase: false, promotion: false, id: 3}
-            ]
+            ],
+            term: '',
+            filter: ''
         }
         this.maxId = this.state.data.length + 1
     }
@@ -39,9 +41,7 @@ class App extends Component{
                 data: newArr
             }
         })
-        } else {
-            console.log('fsfs')
-        }
+        } 
     }
 
     // onToggleIncrease = (id) => {
@@ -88,21 +88,55 @@ class App extends Component{
                 }))
     }
 
+    searchEmp = (data, term) => {
+        if (term.length === 0) {
+            return data;
+        }
+        return data.filter(el => {
+            return el.name.indexOf(term) > -1
+        })
+    }
+
+    onUptadeSearch = (term) => {
+        this.setState({term: term})
+    }
+
+    filterPost = (data, filter) => {
+        switch (filter) {
+            case 'promotion':
+                return data.filter(el => el.promotion);
+            case 'moreThan1000':
+                return data.filter(el => el.salary > 1000);
+            default:
+                return data
+        }
+    }
+
+    onFilter = (filter) => {
+        this.setState({
+            filter: filter
+        })
+    } 
+
+
     render() {
+        const {data, term, filter} = this.state;
         const employees = this.state.data.length;
         const increased = this.state.data.filter(el => el.increase).length;
+        const visibleData = this.filterPost(this.searchEmp(data, term), filter);
 
         return (
             <div className="app">
                 <AppInfo employees={employees} increased={increased}/>
     
                 <div className="search-panel">
-                    <SearchPanel/>
-                    <AppFilter/>
+                    <SearchPanel onUptadeSearch={this.onUptadeSearch}/>
+                    <AppFilter onFilter={this.onFilter}/>
                 </div>
     
                 <EmpList 
-                data={this.state.data}
+
+                data={visibleData}
                 onDelete={this.deleteItem}
                 onToggleProp={this.onToggleProp}
                 />
