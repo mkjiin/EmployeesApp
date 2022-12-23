@@ -14,7 +14,7 @@ class EmpAddForm extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-    }
+    };
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -50,7 +50,7 @@ class EmpAddForm extends Component {
                 </form>
             </div>
         );
-    }
+    };
 }
 
 export default EmpAddForm;
